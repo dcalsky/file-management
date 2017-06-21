@@ -10,9 +10,10 @@ export default class SubDir extends Component {
     super(props)
   }
   render() {
+
     return(
       <div className="sub-dir">
-        213
+
       </div>
     )
   }

@@ -9,15 +9,16 @@ export default function FCB(state, action) {
   const path = imState.get('path')
   switch (action.type) {
     case BACK:
+      if (state.items[path[path.length - 1]].type === 'file') {
+        path.pop()
+      }
       path.pop()
       return {
         ...state,
-        currentDir: path[path.length - 1],
+        currentFCB: path[path.length - 1],
         path
       }
-      break
     case ADD:
-
       const items = imState.get('items'),
         parentFCB = items[action.parentId],
         parentFCBChildren = parentFCB.children
@@ -32,7 +33,8 @@ export default function FCB(state, action) {
         id: state.items.length,
         type: action.FCBType,
         children: [],
-        size: 0
+        size: 0,
+        createTime: new Date()
       }
 
       //add new FCB index to its parent
@@ -43,38 +45,32 @@ export default function FCB(state, action) {
       // add new FCB to FCBS
       items.push(newFCB)
       return imState.set('items', items).toJS()
-      break
     case REMOVE:
       return imState.set('items', imState.get('items').splice(action.id, action.id + 1))
     case ENTER:
       const fcb = state.items[action.id]
+      if (state.items[path[path.length - 1]].type === 'file') {
+        path[path.length - 1] = action.id
+      }
       if (path[path.length - 1] !== action.id) {
         path.push(action.id)
       }
-      if (fcb.type === 'file') {
-        return {
-          ...state,
-          currentFile: action.id,
-          path
-        }
-      } else {
-        return {
-          ...state,
-          currentDir: action.id,
-          path
-        }
+      return {
+        ...state,
+        currentFCB: action.id,
+        path
       }
-      break
     default:
       return {
-        currentDir: 0,
-        currentFile: null,
+        currentFCB: 0,
         path: [0],
         items: [{
           id: 0,
           size: 0,
           type: 'dir',
-          children: []
+          children: [],
+          name: '',
+          createTime: new Date()
         }]
       }
   }
