@@ -1,0 +1,30 @@
+.dir {
+  position: relative;
+  width: 200px;
+  padding-top: 25px;
+  background: #f6f6f6;
+  border-right: 1px solid #e0e0e0;
+
+  ul {
+	overflow-y: scroll;
+	max-height: 95%;
+	padding: 0 10px 25px 10px;
+	.fa {
+	  padding-right: 5px;
+	}
+	li {
+	  padding: 5px;
+	  margin: 7px 0;
+	  cursor: pointer;
+	  border-radius: 2px;
+	  span {
+		font-size: .8rem;
+	  }
+	}
+	li.active {
+	  background: #007ee4;
+	  color: white;
+	}
+  }
+
+}

@@ -1,0 +1,32 @@
+#home {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  height: 100vh;
+}
+
+.tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+  padding: 5px 10px;
+  position: absolute;
+  background: #eeeeee;
+  bottom: 0;
+  border-top: 1px solid #e0e0e0;
+
+  span {
+	font-size: .8rem;
+  }
+  i {
+	font-size: 1.6rem;
+  }
+  #remove-directory {
+	color: #b2b2b2;
+  }
+}
+.tools #remove-directory.active {
+  color: #E57373;
+}

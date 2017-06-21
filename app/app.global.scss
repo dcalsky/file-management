@@ -1,0 +1,29 @@
+@import "~font-awesome/css/font-awesome.min.css";
+
+* {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  -webkit-app-region: drag;
+  color: #525252;
+  font-family: Arial, Helvetica, Helvetica Neue, serif;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
