@@ -1,11 +1,9 @@
 export const SAVE = 'SAVE';
-export const REMOVE = 'REMOVE';
-export const ENTER = 'ENTER';
-export const BACK = 'BACK';
 
-export function save(name, parent, type = 'file') {
+export function save(content) {
   return {
-    type: ADD,
+    type: SAVE,
+    content
   }
 }
 

@@ -12,17 +12,35 @@ export default class Preview extends Component {
     super(props)
     this.state = {
       editMode: false,
-      content: null
+      content: ''
+    }
+  }
+  componentWillUpdate(props) {
+    if (this.props.Block.currentBlock !== props.Block.currentBlock) {
+      this.props.addBlock(props.FCB.currentFCB, props.Block.currentBlock)
     }
   }
   toggleEditFileMode = () => {
+    const {items, currentFCB} = this.props.FCB
+    const {blocks} = this.props.Block
+    const block = blocks[items[currentFCB].blockId]
+    let content = block ? block.content : ''
+    if (this.state.editMode) {
+      this.setState({
+        content: ''
+      })
+    } else {
+      this.setState({
+        content
+      })
+    }
     this.setState({
       editMode: !this.state.editMode,
-      content: null
     })
   }
   saveFile = () => {
-
+    this.props.save(this.state.content)
+    this.toggleEditFileMode()
   }
   editFile = (e) => {
     this.setState({
@@ -32,17 +50,22 @@ export default class Preview extends Component {
   renderEditMode = () => {
     return (
       <div className="preview" style={{padding: 0}}>
-        <textarea className="editor" onChange={this.editFile}/>
+        <textarea className="editor" onChange={this.editFile} value={this.state.content}/>
         <div className="group">
           <button onClick={this.toggleEditFileMode}>放弃</button>
-          <button>保存</button>
+          <button onClick={this.saveFile}>保存</button>
         </div>
       </div>
     )
   }
   render() {
     const {path, items, currentFCB} = this.props.FCB
+    const {blocks} = this.props.Block
     const FCB = items[currentFCB]
+    let size = 0
+    if (FCB.type === 'file') {
+      size = blocks[FCB.blockId] ? blocks[FCB.blockId].occupied : 0
+    }
     const pathFCBS = path.map((id) => {
       return items[id]
     })
@@ -60,7 +83,7 @@ export default class Preview extends Component {
           })}
         </p>
         <p className="time">
-          Created: {FCB.createTime.getTime()}
+          Created: {FCB.createTime}
         </p>
         <div className="img">
           <img src={FCB.type === 'file' ? file : folder} alt=""/>
@@ -68,12 +91,12 @@ export default class Preview extends Component {
         <div className="info">
           <p>Name: {FCB.name || 'Root'}</p>
           <p>Type: {FCB.type === 'file' ? '文件' : '文件夹'}</p>
-          <p>Size: {FCB.size}</p>
+
           {
             FCB.type === 'dir' ?
               <p>Children count: {FCB.children.length}</p>
               :
-              null
+              <p>Size: {size}</p>
           }
 
         </div>

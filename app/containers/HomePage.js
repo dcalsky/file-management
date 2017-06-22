@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import Preview from '../components/Preview'
-const BrowserWindow = require('electron').remote.BrowserWindow
-const path = require('path')
 import Directory from '../components/Directory'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as FCBActions from '../actions/FCB';
-const dialog = require('electron').dialog
+import * as BlockActions from '../actions/Block';
 import './home.scss';
 
 class HomePage extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    console.log(props)
     this.state = {
       dialogShow: false,
       FCBName: null,
@@ -42,7 +41,7 @@ class HomePage extends Component {
     })
   }
   render() {
-    const {FCB} = this.props
+    const {FCB, Block} = this.props
     return (
       <div id="home">
         <Directory {...this.props} />
@@ -64,8 +63,7 @@ class HomePage extends Component {
         </div>
         <div className="tools">
           <i className="fa fa-plus" aria-hidden="true" onClick={this.toggleDialog}/>
-          <span>100MB/1024MB</span>
-          <i className="fa fa-minus" aria-hidden="true" />
+          <span>{(Block.occupied / 1024).toFixed(2)}MB / {(Block.total / 1024).toFixed(2)}MB</span>
         </div>
       </div>
     );
@@ -75,11 +73,16 @@ class HomePage extends Component {
 function mapStateToProps(state) {
   return {
     FCB: state.FCB,
+    Block: state.Block
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(FCBActions, dispatch);
+  const actions = {
+    ...FCBActions,
+    ...BlockActions
+  }
+  return bindActionCreators(actions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

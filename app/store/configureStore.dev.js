@@ -7,7 +7,7 @@ import rootReducer from '../reducers';
 
 const history = createHashHistory();
 
-const configureStore = (initialState?: counterStateType) => {
+const configureStore = (initialState) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
@@ -45,14 +45,13 @@ const configureStore = (initialState?: counterStateType) => {
   const enhancer = composeEnhancers(...enhancers);
 
   // Create Store
-  const store = createStore(rootReducer, initialState, enhancer);
-
+  // const store = compose(autoRehydrate())(createStore)(rootReducer)
+  const store = createStore(rootReducer, initialState, enhancer)
   if (module.hot) {
     module.hot.accept('../reducers', () =>
       store.replaceReducer(require('../reducers')) // eslint-disable-line global-require
     );
   }
-
   return store;
 };
 

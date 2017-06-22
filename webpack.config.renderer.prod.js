@@ -70,7 +70,7 @@ export default merge.smart(baseConfig, {
             options: {
               modules: true,
               importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+              localIdentName: '[local]',
             }
           },
           {

@@ -1,7 +1,8 @@
-export const ADD = 'ADD';
-export const REMOVE = 'REMOVE';
-export const ENTER = 'ENTER';
-export const BACK = 'BACK';
+export const ADD = 'ADD'
+export const REMOVE = 'REMOVE'
+export const ENTER = 'ENTER'
+export const BACK = 'BACK'
+export const ADD_BLOCK = 'ADD_BLOCK'
 
 export function add(name, parent, type = 'file') {
   return {
@@ -29,6 +30,14 @@ export function enter(id) {
 export function back() {
   return {
     type: BACK
+  }
+}
+
+export function addBlock(FCBId, blockId) {
+  return {
+    type: ADD_BLOCK,
+    blockId,
+    FCBId
   }
 }
 
